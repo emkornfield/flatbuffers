@@ -360,15 +360,17 @@ template<typename T> T EndianScalar(T t) {
 
 template<typename T>
 // UBSAN: C++ aliasing type rules, see std::bit_cast<> for details.
-__supress_ubsan__("alignment")
 T ReadScalar(const void *p) {
-  return EndianScalar(*reinterpret_cast<const T *>(p));
+  typename std::remove_const<T>::type scalar;
+  std::memcpy(&scalar, p, sizeof(T));
+  return EndianScalar(scalar);
 }
 
 template<typename T>
 // UBSAN: C++ aliasing type rules, see std::bit_cast<> for details.
-__supress_ubsan__("alignment")
 void WriteScalar(void *p, T t) {
+  T endian_t = EndianScalar(t);
+  std::memcpy(p, &endian_t, sizeof(T));
   *reinterpret_cast<T *>(p) = EndianScalar(t);
 }
 
