@@ -426,6 +426,8 @@ it, this will provide you an easy way to use that data directly.
 (see the schema documentation for some specifics on the JSON format
 accepted).
 
+The JSON format makes the same comptability guarantees that binary format makes for schema evolution.
+
 There are two ways to use text formats:
 
 #### Using the compiler as a conversion tool
